@@ -1,9 +1,11 @@
 import pytest
-from adventure import Adventurer, Goblin, TreasureChest  # Assuming student's code is in adventure.py
+from adventure import EnchantedArtifact  # Assuming student's code is in adventure.py
 
-def test_treasure_chest_is_chest_open(): #10
-    """Test TreasureChest is_chest_open method."""
-    chest = TreasureChest(items=["Potion"])
-    assert chest.is_chest_open() == False, "is_chest_open returns True for a closed chest"
-    chest.open_chest(Adventurer(name="Test", initial_health=100)) # Open the chest
-    assert chest.is_chest_open() == True, "is_chest_open returns False for an open chest"
+def test_enchanted_artifact_is_enchanted_staticmethod_true():
+    """Test EnchantedArtifact is_enchanted static method returns True for power level > 75."""
+    assert EnchantedArtifact.is_enchanted(80) == True, "EnchantedArtifact is_enchanted static method returned False for power level > 75"
+
+def test_enchanted_artifact_is_enchanted_staticmethod_false():
+    """Test EnchantedArtifact is_enchanted static method returns False for power level <= 75."""
+    assert EnchantedArtifact.is_enchanted(75) == False, "EnchantedArtifact is_enchanted static method returned True for power level <= 75"
+    assert EnchantedArtifact.is_enchanted(50) == False, "EnchantedArtifact is_enchanted static method returned True for power level <= 75"
