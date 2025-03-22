@@ -1,15 +1,20 @@
 import pytest
-from adventure import Adventurer, Goblin, TreasureChest  # Assuming student's code is in adventure.py
+from adventure import EnchantedArtifact  # Assuming student's code is in adventure.py
 
+def test_enchanted_artifact_magic_power_property_getter():
+    """Test EnchantedArtifact magic_power property getter."""
+    artifact = EnchantedArtifact(name="PropertyArtifact", magic_power=60)
+    assert artifact.magic_power == 60, "EnchantedArtifact magic_power property getter returned incorrect value"
 
-def test_treasure_chest_open_empty_chest(capsys): #9
-    """Test TreasureChest open_chest method with empty chest."""
-    hero = Adventurer(name="EmptyChestHero", initial_health=100)
-    chest = TreasureChest(items=[]) # Empty chest
-    open_result = chest.open_chest(hero)
-    captured = capsys.readouterr()
+def test_enchanted_artifact_magic_power_property_setter_valid():
+    """Test EnchantedArtifact magic_power property setter with valid value."""
+    artifact = EnchantedArtifact(name="SetterArtifact", magic_power=50)
+    artifact.magic_power = 80
+    assert artifact._magic_power == 80, "EnchantedArtifact magic_power property setter did not set valid value"
 
-    assert chest.is_open == True, "Empty TreasureChest is_open not set to True after opening"
-    assert hero.inventory == {}, "Empty TreasureChest added items to adventurer's inventory (should be empty)"
-    expected_empty_chest_output = "You open the chest, but it is empty."
-    assert open_result == expected_empty_chest_output, f"open_chest return message for empty chest incorrect, got: '{open_result}', expected: '{expected_empty_chest_output}'"
+def test_enchanted_artifact_magic_power_property_setter_invalid():
+    """Test EnchantedArtifact magic_power property setter with invalid (negative) value raises ValueError."""
+    artifact = EnchantedArtifact(name="InvalidSetterArtifact", magic_power=100)
+    with pytest.raises(ValueError) as excinfo:
+        artifact.magic_power = -10
+    assert "Magic power cannot be negative!" in str(excinfo.value), "EnchantedArtifact magic_power setter did not raise ValueError for negative value or message incorrect"
