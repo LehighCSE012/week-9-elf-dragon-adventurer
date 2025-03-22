@@ -1,27 +1,31 @@
 import pytest
-from adventure import Adventurer, Goblin, TreasureChest  # Assuming student's code is in adventure.py
+from adventure import Elf, Character  # Assuming student's code is in adventure.py
 
-def test_goblin_class_exists(): #6
-    """Test that the Goblin class is defined."""
-    assert "Goblin" in globals(), "Goblin class not defined"
+def test_elf_class_exists():
+    """Test that the Elf class is defined."""
+    assert "Elf" in globals(), "Elf class not defined"
 
-def test_goblin_constructor(): #6
-    """Test Goblin constructor initializes attributes correctly."""
-    goblin = Goblin(name="TestGoblin", initial_health=40, attack_power=20)
-    assert goblin.name == "TestGoblin", "Goblin name not initialized correctly"
-    assert goblin.health == 40, "Goblin health not initialized correctly"
-    assert goblin.attack_power == 20, "Goblin attack_power not initialized correctly"
+def test_elf_inherits_from_character():
+    """Test that Elf class inherits from Character."""
+    assert issubclass(Elf, Character), "Elf class does not inherit from Character"
 
-def test_goblin_make_sound(): #6
-    """Test Goblin make_sound method returns correct sound."""
-    goblin = Goblin(name="SoundGoblin", initial_health=30, attack_power=15)
-    sound = goblin.make_sound()
-    assert sound == "Hehehe!", "Goblin make_sound returned incorrect sound"
+def test_elf_constructor():
+    """Test Elf constructor initializes attributes correctly."""
+    elf = Elf(name="TestElf")
+    assert elf.name == "TestElf", "Elf name not initialized correctly"
+    assert elf.health == 100, "Elf health not initialized to default correctly"
+    assert elf.attack_power == 25, "Elf attack_power not initialized to default correctly"
 
-def test_goblin_take_damage(): #6
-    """Test Goblin take_damage method reduces health correctly."""
-    goblin = Goblin(name="DamageGoblin", initial_health=50)
-    goblin.take_damage(20)
-    assert goblin.health == 30, "Goblin health not reduced correctly"
-    goblin.take_damage(60) # Should not go below zero
-    assert goblin.health == 0, "Goblin health went below zero"
+def test_elf_special_ability():
+    """Test Elf special_ability method returns correct string."""
+    elf = Elf(name="TestElf")
+    ability_desc = elf.special_ability()
+    assert ability_desc == "Elven Agility: Dodges the next attack completely.", "Elf special_ability returned incorrect string"
+
+def test_elf_take_damage():
+    """Test Elf take_damage method reduces health correctly."""
+    elf = Elf(name="DamageElf")
+    elf.take_damage(25)
+    assert elf.health == 75, "Elf health not reduced correctly"
+    elf.take_damage(120)  # Should not go below zero
+    assert elf.health == 0, "Elf health went below zero"
