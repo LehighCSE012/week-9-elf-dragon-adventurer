@@ -1,27 +1,23 @@
 import pytest
-from adventure import Adventurer, Goblin, TreasureChest  # Assuming student's code is in adventure.py
+import abc
+from adventure import Character  # Assuming student's code is in adventure.py
 
-def test_adventurer_class_exists(): #4
-    """Test that the Adventurer class is defined."""
-    assert "Adventurer" in globals(), "Adventurer class not defined"
+def test_character_class_exists():
+    """Test that the Character class is defined."""
+    assert "Character" in globals(), "Character class not defined"
 
-def test_adventurer_constructor(): #4
-    """Test Adventurer constructor initializes attributes correctly."""
-    hero = Adventurer(name="TestHero", initial_health=150)
-    assert hero.name == "TestHero", "Adventurer name not initialized correctly"
-    assert hero.health == 150, "Adventurer health not initialized correctly"
-    assert hero.inventory == {}, "Adventurer inventory not initialized as empty dictionary"
+def test_character_is_abstract_base_class():
+    """Test that Character is an Abstract Base Class (ABC)."""
+    assert isinstance(Character, abc.ABCMeta), "Character is not an Abstract Base Class"
 
-def test_adventurer_display_status(capsys): #4
-    """Test Adventurer display_status method output."""
-    hero = Adventurer(name="StatusHero", initial_health=75)
-    hero.take_item("Sword")
-    hero.take_item("Potion", quantity=3)
-    hero.display_status()
-    captured = capsys.readouterr()
-    expected_output = """Adventurer Status:
-Name:  StatusHero
-Health: 75
-Inventory: {'Sword': 1, 'Potion': 3}
-"""
-    assert captured.out == expected_output, "Adventurer display_status output incorrect"
+def test_character_cannot_be_instantiated():
+    """Test that Character class cannot be instantiated directly."""
+    with pytest.raises(TypeError):
+        Character(name="TestChar", health=100, attack_power=10)
+
+def test_character_has_abstract_methods():
+    """Test that Character class has abstract methods special_ability and take_damage."""
+    assert hasattr(Character, "special_ability"), "Character class does not have special_ability method"
+    assert hasattr(Character, "take_damage"), "Character class does not have take_damage method"
+    assert isinstance(Character.special_ability, abc.abstractmethod), "Character.special_ability is not an abstract method"
+    assert isinstance(Character.take_damage, abc.abstractmethod), "Character.take_damage is not an abstract method"
